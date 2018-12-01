@@ -1,0 +1,46 @@
+{
+    "port": 7301,
+    "host": "192.168.21.48",
+    "pageSize": 30,
+    "proxy": false,
+    "db": "mongodb://192.168.21.48/admink",
+    "unsplashClientId": "",
+    "blackList": {
+      "projects": [],
+      "ips": []
+    },
+    "rateLimit": {
+      "max": 1000,
+      "duration": 1000
+    },
+    "jwt": {
+      "expire": "14 days",
+      "secret": "shared-secret"
+    },
+    "upload": {
+      "types": [".jpg", ".jpeg", ".png", ".gif", ".json", ".yml", ".yaml", ".zip"],
+      "size": 5242880,
+      "dir": "../upload-source-map/souce-map",
+      "imageDir": "../upload-images/images",
+      "expire": {
+        "types": [".json", ".yml", ".yaml"],
+        "day": -1
+      }
+    },
+    "ldap": {
+      "server": "",
+      "bindDN": "",
+      "password": "",
+      "filter": {
+        "base": "",
+        "attributeName": ""
+      }
+    },
+    "fe": {
+      "copyright": "",
+      "storageNamespace": "easy-mock_",
+      "timeout": 25000,
+      "publicPath": "/dist/"
+    }
+  }
+  

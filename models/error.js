@@ -20,6 +20,17 @@ const schema = new Schema({
     stack: {
         type: String
     },
+    // 解析source-map专有
+    souce: {
+        type: String
+    },
+    // 解析source-map专有
+    name: {
+        type: String
+    },
+    count: {
+        type: Number
+    },
     createTime: {
         type: Date
     },

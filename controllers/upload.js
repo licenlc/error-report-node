@@ -5,21 +5,28 @@ const path = require('path')
 const moment = require('moment')
 const mkdirp = require('mkdirp')
 const config = require('config')
+const compress = require('compressing')
 
 const uploadConf = config.get('upload')
+
+const TYPE = {tar: 'tar', gzip: 'gzip', tgz: 'tgz', zip: 'zip'}
 
 module.exports = class UploadController {
     /**
      * source-map文件上传接口
-     * 
      * @param {*} ctx 
      */
     static async upload (ctx) {
-        console.log('图片上传')
+        console.log('source-map 上传')
         ctx.body= 'source-map上传接口调试'
         const origin = ctx.request.origin
         const expireDay = uploadConf.expire.day
-        const date = moment().format('YYYY-MM-DD')
+        let date
+        if (ctx.date) {
+            date = ctx.date
+        } else {
+            date = moment().format('YYYY-MM-DD')
+        }
         const files = ctx.request.files
         const uploadDir = path.resolve(__dirname, uploadConf.dir, date)
         if (!fs.existsSync(uploadDir)) {
@@ -55,5 +62,18 @@ module.exports = class UploadController {
             stream = fs.createWriteStream(path.join(uploadDir, files[key].name))
             reader.pipe(stream)
         }
+    }
+
+    static async uncompress (ctx) {
+        const query = ctx.query
+        const time = query.time
+        const filename = query.filename
+        console.log(query.type, TYPE[query.type])
+        const type = TYPE[query.type] || 'tar'
+        const dist = (path.join(uploadConf.dir, time)).replace('..', '.') + '/'+ filename
+        console.log('dist:', dist)
+        let upzip = compress.zip.uncompress(dist, path.join(uploadConf.dir, time)).then(res => {
+            console.log(res)
+        })
     }
 }

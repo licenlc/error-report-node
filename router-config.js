@@ -10,3 +10,4 @@ exports.api = apiRouter
   .post('/update', error.update)
   .post('/sourceMap', upload.upload)
   .post('/images', upload.image)
+  .get('/uqzip', upload.uncompress)

@@ -17,13 +17,13 @@ module.exports = class ErrorController {
         let url = query.url
         const sourcemap = query.sourcemap
         console.log('query.url:', query)
-        // sourcemap 为true时，需要先解析
+        // sourcemap 为true时，需要先解析,前端传递过来，加快解析速度
         if (sourcemap && url) {
-            let fileUrl = url.slice(url.lastIndexOf('/')) + '.map'
+            const fileUrl = url.slice(url.lastIndexOf('/')) + '.map'
             let dist = (mapDir.dir +'/' + query.date + fileUrl).replace('..', '.')
             console.log('fileUrl:', dist)
             let sm = new sourceMap.SourceMapConsumer(fs.readFileSync(dist, 'utf-8'))
-            sm.then(function (resutlInfo) {
+            sm.then((resutlInfo) => {
                 let result = resutlInfo.originalPositionFor({
                     line: line,
                     column: column
@@ -33,6 +33,7 @@ module.exports = class ErrorController {
                 console.log('yichang')
             })
         } else {
+
         }
         ctx.body = '测试成功1111'
     }
@@ -42,5 +43,12 @@ module.exports = class ErrorController {
      */
     static async update (ctx) {
         ctx.body = 'update'
+    }
+
+    /**
+     * 查询日志信息,提供给日志查看系统使用
+     */
+    static async query (ctx) {
+        
     }
 }

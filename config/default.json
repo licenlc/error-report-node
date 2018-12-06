@@ -21,7 +21,9 @@
       "types": [".jpg", ".jpeg", ".png", ".gif", ".json", ".yml", ".yaml", ".zip"],
       "size": 5242880,
       "dir": "../upload-source-map/souce-map",
+      "dirRead": "./upload-source-map/souce-map",
       "imageDir": "../upload-images/images",
+      "imageDirRead": "./upload-images/images",
       "expire": {
         "types": [".json", ".yml", ".yaml"],
         "day": -1

@@ -70,10 +70,14 @@ module.exports = class UploadController {
         const filename = query.filename
         console.log(query.type, TYPE[query.type])
         const type = TYPE[query.type] || 'tar'
-        const dist = (path.join(uploadConf.dir, time)).replace('..', '.') + '/'+ filename
-        console.log('dist:', dist)
-        let upzip = compress.zip.uncompress(dist, path.join(uploadConf.dir, time)).then(res => {
-            console.log(res)
-        })
+        const dist = (path.join(uploadConf.dirRead, time)) + '/'+ filename
+        try {
+            await compress.zip.uncompress(dist, path.join(uploadConf.dirRead, time))
+            setTimeout(() => {
+                console.log('kdkdkdkdkdk')
+            }, 100)
+        } catch (e) {
+            ctx.body = "解压失败"
+        }
     }
 }

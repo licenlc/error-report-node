@@ -8,32 +8,34 @@ const mapDir = config.get('upload')
 
 module.exports = class ErrorController {
     /**
-     * 新增异常信息
+     * 新增异常信息，提供给浏览器端使用
      */
     static async create (ctx) {
         const query = ctx.query
+        // console.log('query:', query)
         const line = parseInt(query.line)
         const column = parseInt(query.column)
         let url = query.url
-        const sourcemap = query.sourcemap
-        console.log('query.url:', query)
+        let date = '2018-12-01/js'
+        const sourcemap = query.map
         // sourcemap 为true时，需要先解析,前端传递过来，加快解析速度
-        if (sourcemap && url) {
-            const fileUrl = url.slice(url.lastIndexOf('/')) + '.map'
-            let dist = (mapDir.dir +'/' + query.date + fileUrl).replace('..', '.')
-            console.log('fileUrl:', dist)
+        if (sourcemap === '1' && url) {
+            const fileUrl = url.slice(url.lastIndexOf('/'), url.indexOf('.js')) + '.js.map'
+            console.log('截取的fileUrl:', fileUrl)
+            let dist = (mapDir.dirRead +'/' + date + fileUrl)
+            console.log('拼接的fileUrl:', dist)
             let sm = new sourceMap.SourceMapConsumer(fs.readFileSync(dist, 'utf-8'))
             sm.then((resutlInfo) => {
                 let result = resutlInfo.originalPositionFor({
                     line: line,
                     column: column
                 })
-                console.log('解析结果：', result)
+                console.log('解析结果：', JSON.stringify(result))
             }, (reject) => {
-                console.log('yichang')
+                console.log('解析错误')
             })
         } else {
-
+            console.log(JSON.stringify(query))
         }
         ctx.body = '测试成功1111'
     }

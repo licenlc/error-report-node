@@ -14,7 +14,7 @@ const codeMap = {
 }
 
 const utilFn = {
-  resuccess (data) {
+  success (data) {
     return {
       code: 200,
       success: true,
@@ -22,7 +22,7 @@ const utilFn = {
       data: data || null
     }
   },
-  refail (message, code, data) {
+  fail (message, code, data) {
     return {
       code: code || -1,
       success: false,

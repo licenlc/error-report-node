@@ -2,5 +2,6 @@
 
 module.exports = {
   error: require('./error'),
-  upload: require('./upload')
+  upload: require('./upload'),
+  user: require('./user')
 }

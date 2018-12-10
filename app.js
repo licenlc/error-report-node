@@ -10,7 +10,7 @@ const config =require('config')
 let routerConfig = require('./router-config')
 
 let app = new Koa()
-onerror(app)
+// onerror(app)
 validate(app)
 
 app
@@ -18,10 +18,15 @@ app
 .use(logger)
 .use(middleware.util)
 .use(cors({ credentials: true, maxAge: 2592000 }))
-.use(koaBody({ multipart: true}))
+.use(koaBody({ multipart: true }))
 .use(routerConfig.api.routes())
 .use(routerConfig.api.allowedMethods)
 
+if (!module.parent) {
+    const port = config.get('port')
+    const host = config.get('host')
+    console.log(`server started at http://${host}:${port}`)
+}
 
 app.listen(config.port, () => {
     console.log('应用启动成功')

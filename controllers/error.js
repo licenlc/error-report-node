@@ -7,6 +7,7 @@ const sourceMap = require('source-map')
 const mapDir = config.get('upload')
 
 module.exports = class ErrorController {
+
     /**
      * 新增异常信息，提供给浏览器端使用
      */
@@ -42,7 +43,6 @@ module.exports = class ErrorController {
                 console.log(e)
             }
         } else {
-            // console.log(JSON.stringify(query))
         }
         ctx.body = '测试成功1111'
     }
@@ -58,6 +58,6 @@ module.exports = class ErrorController {
      * 查询日志信息,提供给日志查看系统使用
      */
     static async query (ctx) {
-        
+
     }
 }

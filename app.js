@@ -4,11 +4,14 @@ const cors = require('@koa/cors')
 const koaBody = require('koa-body')
 const logger = require('./util/logger')
 const middleware = require('./middlewares')
+const validate = require('koa-validate')
+const config =require('config')
 
 let routerConfig = require('./router-config')
 
 let app = new Koa()
 onerror(app)
+validate(app)
 
 app
 .use(middleware.ipFilter)
@@ -20,6 +23,6 @@ app
 .use(routerConfig.api.allowedMethods)
 
 
-app.listen(4545, () => {
+app.listen(config.port, () => {
     console.log('应用启动成功')
 })

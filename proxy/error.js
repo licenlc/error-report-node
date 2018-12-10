@@ -1,7 +1,7 @@
 const { ErrorInfo } = require('../models')
 
 module.exports = class ErrorInfoProxy {
-    static create (message, line, column, stack, creatTime, updateTime) {
+    static create (message, line, column, stack, createTime, updateTime) {
         const errorInfo = new ErrorInfo()
         errorInfo.message = message
         errorInfo.line = line

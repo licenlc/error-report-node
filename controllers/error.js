@@ -12,30 +12,37 @@ module.exports = class ErrorController {
      */
     static async create (ctx) {
         const query = ctx.query
-        // console.log('query:', query)
+        console.log('query:', query)
+        const message = ctx.checkQuery(ctx.message).notEmpty()
+        console.log('message:', message)
         const line = parseInt(query.line)
         const column = parseInt(query.column)
         let url = query.url
-        let date = '2018-12-01/js'
-        const sourcemap = query.map
+        let date = query.date
+        const sourcemap = query.m
         // sourcemap 为true时，需要先解析,前端传递过来，加快解析速度
         if (sourcemap === '1' && url) {
-            const fileUrl = url.slice(url.lastIndexOf('/'), url.indexOf('.js')) + '.js.map'
+            const fileUrl = url.slice(url.lastIndexOf('/js'), url.indexOf('.js')) + '.js.map'
             console.log('截取的fileUrl:', fileUrl)
-            let dist = (mapDir.dirRead +'/' + date + fileUrl)
+            let dist = `${mapDir.dirRead}/${date}/${query.project}${fileUrl}`
             console.log('拼接的fileUrl:', dist)
-            let sm = new sourceMap.SourceMapConsumer(fs.readFileSync(dist, 'utf-8'))
-            sm.then((resutlInfo) => {
-                let result = resutlInfo.originalPositionFor({
-                    line: line,
-                    column: column
+            try {
+                let sm = new sourceMap.SourceMapConsumer(fs.readFileSync(dist, 'utf-8'))
+                sm.then((resutlInfo) => {
+                    let result = resutlInfo.originalPositionFor({
+                        line: line,
+                        column: column
+                    })
+                    console.log('解析结果：', JSON.stringify(result))
+                }, (reject) => {
+                    console.log('解析错误')
                 })
-                console.log('解析结果：', JSON.stringify(result))
-            }, (reject) => {
-                console.log('解析错误')
-            })
+            } catch (e) {
+                console.log('解析文件异常')
+                console.log(e)
+            }
         } else {
-            console.log(JSON.stringify(query))
+            // console.log(JSON.stringify(query))
         }
         ctx.body = '测试成功1111'
     }

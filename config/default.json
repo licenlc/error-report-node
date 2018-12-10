@@ -1,9 +1,9 @@
 {
-    "port": 7301,
-    "host": "192.168.21.48",
+    "port": 4545,
+    "host": "192.168.20.131",
     "pageSize": 30,
     "proxy": false,
-    "db": "mongodb://192.168.21.48/admink",
+    "db": "mongodb://192.168.21.48/admin",
     "unsplashClientId": "",
     "blackList": {
       "projects": [],

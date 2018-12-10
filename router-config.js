@@ -11,3 +11,4 @@ exports.api = apiRouter
   .post('/sourceMap', upload.upload)
   .post('/images', upload.image)
   .get('/uqzip', upload.uncompress)
+  .get('/userAgent', upload.userAgent)

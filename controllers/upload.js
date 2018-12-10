@@ -12,6 +12,11 @@ const uploadConf = config.get('upload')
 const TYPE = {tar: 'tar', gzip: 'gzip', tgz: 'tgz', zip: 'zip'}
 
 module.exports = class UploadController {
+
+    static async userAgent (ctx) {
+        console.log(ctx.query)
+    }
+
     /**
      * source-map文件上传接口
      * @param {*} ctx 
@@ -64,6 +69,12 @@ module.exports = class UploadController {
         }
     }
 
+    /**
+     * 
+     * 解压文件，提供给解压soucemap文件使用
+     * 
+     * @param {*} ctx 
+     */
     static async uncompress (ctx) {
         const query = ctx.query
         const time = query.time
@@ -71,11 +82,9 @@ module.exports = class UploadController {
         console.log(query.type, TYPE[query.type])
         const type = TYPE[query.type] || 'tar'
         const dist = (path.join(uploadConf.dirRead, time)) + '/'+ filename
+        console.log('dist:', dist)
         try {
             await compress.zip.uncompress(dist, path.join(uploadConf.dirRead, time))
-            setTimeout(() => {
-                console.log('kdkdkdkdkdk')
-            }, 100)
         } catch (e) {
             ctx.body = "解压失败"
         }
